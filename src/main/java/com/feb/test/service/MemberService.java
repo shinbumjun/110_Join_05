@@ -88,7 +88,7 @@ public class MemberService {
 		if(result == 1) {
 			EmailDto emailDto = new EmailDto();
 			emailDto.setFrom("sinbumjun123@naver.com"); // 이메일을 발신하는 사람의 이메일 주소
-			emailDto.setReceiver(email); // 이메일을 수신하는 사람의 이메일 주소
+			emailDto.setReceiver(email); // 이메일을 수신하는 사람의 이메일 주소, 회원가입한 이메일로 메일 발송
 			emailDto.setText("이메일의 본문 내용"); // 이메일의 본문 내용
 			emailDto.setSubject("가입을 축하합니다!!!"); // 이메일의 제목
 			System.out.println("emailDto3333333333333333333 : " + emailDto.toString());
