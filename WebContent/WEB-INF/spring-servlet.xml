@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+	<!-- 컨트롤러는 @Controller 어노테이션을 사용하여 자동으로 감지되는 POJO입니다. -->
+	<context:component-scan base-package="com.feb.test" use-default-filters="false" >
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- JSP 뷰 리졸버 설정 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	
+	<!-- 애노테이션 기반 MVC 지원 활성화 -->
+	<mvc:annotation-driven />
+	
+	<!-- css,js 서블릿이 인식을 못해서 작성한 것, resources폴더 만들기 -->
+	<!-- localhost:8088/spring/resources 자원으로 설정(서블릿에서 빼버린다) -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	
+</beans>

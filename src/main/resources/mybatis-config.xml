@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<!-- member_id -> memberId -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+
+	<!-- 
+		com.feb.test.entity // 패키지에 
+		@Alias("Member") // 생략 가능
+		public class Member { // 하면
+
+		mybatis-config typeAliases로 패키지 찾아줌
+	 -->
+  <!-- 쿼리 수행 결과를 DTO에 자동 매핑하기 위해 DTO 검색 -->
+	<typeAliases>
+		<package name="com.feb.test.dto" /> <!-- dto에 생성할 예정 -->
+	</typeAliases>
+
+	<!--  개별로 setting 하는 방법
+	<typeAlias alias="Employees" type="com.edu.dto.Employees" />
+	-->
+</configuration>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- The controllers are auto-detected POJOs labeled with the @Controller annotation. -->
+	<context:component-scan base-package="com.feb.test" use-default-filters="false" >
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+
+	<!-- DAO 구현체 역할을 대신 해주는 클래스 기본설정 4가지가 필요하다. -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- DB에 접속 하기 위해서 설정 -->
+		<property name="dataSource" ref="dataSource" />
+
+		<!-- myBatis 기본 설정 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+
+		<!-- query 적힌 xml 위치 -->
+		<property name="mapperLocations" value="classpath:sql/SQL.*.xml" />
+
+		<!-- 트랜잭션 관리를 위한 것 -->
+		<property name="transactionFactory">
+			<bean class="org.mybatis.spring.transaction.SpringManagedTransactionFactory" />
+		</property>
+	</bean>
+
+ 	<!-- DAO 위치를 basePackage로.. -->
+	<!-- 작업지시서가 있는 패키지 위치를 잡아줘야 사용 할 수 있다 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.feb.test.dao" />
+	</bean>
+
+	<!-- 트랜잭션 관리를 위한 bean -->
+	<bean id="transactionManager" 
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+		<!--  EmailUtil emailUtil = new EmailUtil(); 이걸 싱글톤 패턴으로 한다 -->
+	<bean id="emailUtil" class="com.feb.test.util.EmailUtil">
+		<constructor-arg ref="mailSender" />
+	</bean>
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.naver.com" />
+		<property name="port" value="587" />
+		<property name="username" value="sinbumjun123@naver.com" />
+		<property name="password" value="9QHSNKLCZF9C" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+
+</beans>
